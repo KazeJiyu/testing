@@ -223,7 +223,9 @@ public class MyPointTest {
 	 */
 	@Test
 	public void compute_angle_does_not_alter_point() {
-		fail("Not yet implemented");
+		MyPoint previous = point;
+		point.computeAngle(new MyPoint(4,5));
+		assertThat(previous, is(point));
 	}
 
 	/**
@@ -254,7 +256,7 @@ public class MyPointTest {
 	 * Test method for {@link main.fr.ut2j.m1ice.ootesting.MyPoint#centralSymmetry(main.fr.ut2j.m1ice.ootesting.MyPoint)}.
 	 */
 	@Test(expected = IllegalArgumentException.class)
-	public void testCentralSymmetryThrowsException() {
+	public void testCentralSymmetryThrowsOnNull() {
 		point.centralSymmetry(null);
 	}
 
