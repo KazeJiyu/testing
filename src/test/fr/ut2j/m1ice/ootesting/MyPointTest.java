@@ -7,9 +7,11 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
+import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import org.junit.After;
 import org.junit.Before;
@@ -19,6 +21,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import main.fr.ut2j.m1ice.ootesting.MyPoint;
 
@@ -29,6 +33,7 @@ import main.fr.ut2j.m1ice.ootesting.MyPoint;
 @RunWith(Parameterized.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MyPointTest {
+	
 	@Parameters
 		public static List<MyPoint> points() {
 			return Arrays.asList(new MyPoint(0d, 0d), new MyPoint(5.873, -3.8764));
@@ -36,8 +41,14 @@ public class MyPointTest {
 			// {0d, 0d}, {1d, 1d}, {2.4353, 1.2435}, {-3.654, Double.NaN}, null, {6d, 8d}});
 	}
 	
-	MyPoint ORIGIN;
-	MyPoint point;
+	private MyPoint ORIGIN;
+	private MyPoint point;
+	
+	@Mock
+	private Random rand1Mock;
+	
+	@Mock
+	private Random rand2Mock;
 	
 	public MyPointTest(MyPoint newPoint) {
 		this.point = newPoint;
@@ -49,6 +60,9 @@ public class MyPointTest {
 	@Before
 	public void setUp() throws Exception {
 		ORIGIN = new MyPoint();
+		
+		// Init mocks
+		MockitoAnnotations.initMocks(this);
 	}
 
 	/**
@@ -274,8 +288,14 @@ public class MyPointTest {
 	 * Test method for {@link main.fr.ut2j.m1ice.ootesting.MyPoint#setPoint(java.util.Random, java.util.Random)}.
 	 */
 	@Test
-	public void testSetPoint() {
-		fail("Not yet implemented");
+	public void set_point_uses_random_values() {
+		MyPoint expected = new MyPoint(12,-5);
+		
+		when(rand1Mock.nextInt()).thenReturn((int) expected.getX());
+		when(rand2Mock.nextInt()).thenReturn((int) expected.getY());
+		
+		point.setPoint(rand1Mock, rand2Mock);
+		assertEquals(expected, point);
 	}
 
 	/**
