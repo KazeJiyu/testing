@@ -14,8 +14,8 @@ import org.junit.runners.MethodSorters;
 import main.fr.ut2j.m1ice.ootesting.MyPoint;
 
 /**
- * @author Kaze
- *
+ * @author Mathilde LANNES
+ * @author Emmanuel CHEBBI
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MyPointTest {
