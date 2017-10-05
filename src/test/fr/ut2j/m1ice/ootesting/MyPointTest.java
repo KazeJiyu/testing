@@ -3,11 +3,12 @@
  */
 package test.fr.ut2j.m1ice.ootesting;
 
-import static org.junit.Assert.*;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 import org.junit.After;
@@ -25,8 +26,7 @@ import main.fr.ut2j.m1ice.ootesting.MyPoint;
  * @author Mathilde LANNES
  * @author Emmanuel CHEBBI
  */
-
- @RunWith(Parameterized.class)
+@RunWith(Parameterized.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MyPointTest {
 	@Parameters
@@ -106,7 +106,7 @@ public class MyPointTest {
 	public void point_x_can_be_set_and_get() {
 		for( int x = -50 ; x < 50 ; ++x ) {
 			point.setX(x);
-			assertThat(point.getX(), is(x));
+			assertEquals(x, point.getX(), 0.0001);
 		}
 	}
 
@@ -115,9 +115,9 @@ public class MyPointTest {
 	 */
 	@Test
 	public void point_y_can_be_set_and_get() {
-		for( int x = - 50 ; x < 50 ; ++x ) {
-			point.setX(x);
-			assertThat(point.getX(), is(x));
+		for( int y = - 50 ; y < 50 ; ++y ) {
+			point.setY(y);
+			assertEquals(y, point.getY(), 0.0001);
 		}
 	}
 
@@ -208,8 +208,16 @@ public class MyPointTest {
 	 * Test method for {@link main.fr.ut2j.m1ice.ootesting.MyPoint#computeAngle(main.fr.ut2j.m1ice.ootesting.MyPoint)}.
 	 */
 	@Test
-	public void testComputeAngle() {
+	public void compute_angle_does_not_alter_point() {
 		fail("Not yet implemented");
+	}
+
+	/**
+	 * Test method for {@link main.fr.ut2j.m1ice.ootesting.MyPoint#computeAngle(main.fr.ut2j.m1ice.ootesting.MyPoint)}.
+	 */
+	@Test
+	public void compute_angle_returns_NaN_on_null() {
+		assertThat(point.computeAngle(null), is(Double.NaN));
 	}
 
 	/**
@@ -226,6 +234,14 @@ public class MyPointTest {
 	@Test
 	public void testCentralSymmetry() {
 		fail("Not yet implemented");
+	}
+
+	/**
+	 * Test method for {@link main.fr.ut2j.m1ice.ootesting.MyPoint#centralSymmetry(main.fr.ut2j.m1ice.ootesting.MyPoint)}.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void central_symmetry_throws_on_null() {
+		point.centralSymmetry(null);
 	}
 
 	/**

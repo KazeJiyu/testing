@@ -50,7 +50,8 @@ public class MyPoint {
 	 * @param newX The new X coordinate. Must be valid (not equal Double.NaN), otherwise nothing is done.
 	 */
 	public void setX(final double newX) {
-		this.x = newX;
+		if( ! Double.isNaN(newX) )
+			this.x = newX;
 	}
 
 
@@ -59,7 +60,8 @@ public class MyPoint {
 	 * @param newY The new Y coordinate. Must be valid (not equal Double.NaN), otherwise nothing is done.
 	 */
 	public void setY(final double newY) {
-		this.y = newY;
+		if( ! Double.isNaN(newY) )
+			this.y = newY;
 	}
 
 
@@ -108,6 +110,9 @@ public class MyPoint {
 	 * @return The angle or NaN if the given point null.
 	 */
 	public double computeAngle(final MyPoint pt) {
+		if( pt == null )
+			return Double.NaN;
+		
 		double angle;
 		final double x2 = pt.getX() - x;
 		final double y2 = pt.getY() - y;
