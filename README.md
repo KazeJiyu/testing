@@ -34,11 +34,13 @@ Les getters sont nécessaires pour vérifier l'état interne des objets ; de ce 
 
 > Q.2a Utilisez l’outil de couverture de code fourni dans Eclipse (ou autre IDE) pour identifier les chemins dans le code non couvert par vos tests. Rajoutez quelques tests si besoins (n’y passez pas trop de temps).
 
-Nous avons utilisé l'outil Eclemma ; 57.7% du code est couvert avant l'ajout de nouveaux tests.
+Nous avons utilisé l'outil Eclemma ; 57.7% du code était couvert. Ce chiffre est monté à 93% après la finalisation des tests. Nous n'atteignons pas les 100% car nous n'avons pas testé les methods toString, equals et hashCode.
 
 > Q.2b Est-ce que votre code est sûr lorsque toutes les instructions sont couvertes par au moins un test ?
 
-Non, car le code peut avoir un souci de conception ou de logique ; ce n'est pas parce que le test couvre tous les chemins possibles empruntés par les méthodes que ces dernières sont cohérentes ou pertinentes.
+Non : l'outil de couvertude de code indique seulement que les tests empruntent les différentes branches du code. Cependant, une erreur de logique dans le code ou une erreur dans la méthode de test peut conduire à des bugs.
+
+Par "erreur de logique", nous entendons en réalité tous les bugs liés à des erreurs dans la sémantique du programme. Par exemple, un programme qui renverra x / 2 à la place de x * 2, ou encore qui appelera une méthode à la place d'une autre.
 
 > Q.2c Ajoutez le test unitaire suivant et exécutez-le. S’il passe, bien joué. Dans tout les cas cela peut certainement vous aidez à répondre à la question précédente.
 
@@ -46,7 +48,7 @@ Non, car le code peut avoir un souci de conception ou de logique ; ce n'est pas 
         new MyPoint ( 1 0 , 2 0 ) . centralSymmetry ( null ) ;
     }
 
-Il faut ajouter l'attribut "expected" à l'annotation @Test afin que ce test passe.
+La méthode centralSymmetry lançant une exception lorsque son paramètre est null, il faut ajouter l'attribut "expected" à l'annotation @Test afin que ce test passe.
 
 
 ## Test d'intégration pour Java avec EasyMock ou Mockito
@@ -78,3 +80,11 @@ Avec Easymock : voir la refcard et les slides du cours.
 * Ajout de la méthode hashCode()
 * Ajout de la méthode equals()
 * Corrections de bugs, mise en place de programmation défensive pour être en accord avec la documentation
+
+## Améliorations possibles
+
+On peut imaginer diverses façons d'améliorer le code.
+
+Tout d'abord, selon les cas d'utilisation de la classe MyPoint il pourrait être avisé de la rendre immutable en empêchant notamment la modification de ses attributs.
+
+Ensuite, la classe présente divers comportements "silencieux". Par exemple, lorsque les setters recoivent "NaN" en paramètre, ils se contentent de ne rien faire. Cela est heureusement en accord avec la documentation, mais il serait pertinent de prévenir l'utilisateur qu'une erreur a eu lieu via, par exemple, une exception.
