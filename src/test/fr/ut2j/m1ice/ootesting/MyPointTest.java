@@ -3,19 +3,16 @@
  */
 package test.fr.ut2j.m1ice.ootesting;
 
-import static org.junit.Assert.*;
-import static org.hamcrest.Matchers.*;
-
-import java.util.Arrays;
-import java.util.List;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
-import org.junit.runners.Parameterized;
 
 import main.fr.ut2j.m1ice.ootesting.MyPoint;
 
@@ -164,8 +161,16 @@ public class MyPointTest {
 	 * Test method for {@link main.fr.ut2j.m1ice.ootesting.MyPoint#computeAngle(main.fr.ut2j.m1ice.ootesting.MyPoint)}.
 	 */
 	@Test
-	public void testComputeAngle() {
+	public void compute_angle_does_not_alter_point() {
 		fail("Not yet implemented");
+	}
+
+	/**
+	 * Test method for {@link main.fr.ut2j.m1ice.ootesting.MyPoint#computeAngle(main.fr.ut2j.m1ice.ootesting.MyPoint)}.
+	 */
+	@Test
+	public void compute_angle_returns_NaN_on_null() {
+		assertThat(point.computeAngle(null), is(Double.NaN));
 	}
 
 	/**
@@ -182,6 +187,14 @@ public class MyPointTest {
 	@Test
 	public void testCentralSymmetry() {
 		fail("Not yet implemented");
+	}
+
+	/**
+	 * Test method for {@link main.fr.ut2j.m1ice.ootesting.MyPoint#centralSymmetry(main.fr.ut2j.m1ice.ootesting.MyPoint)}.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void central_symmetry_throws_on_null() {
+		point.centralSymmetry(null);
 	}
 
 	/**
