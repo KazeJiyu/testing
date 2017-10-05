@@ -7,6 +7,7 @@ import static org.junit.Assert.*;
 import static org.hamcrest.Matchers.*;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import org.junit.After;
@@ -16,6 +17,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
 import main.fr.ut2j.m1ice.ootesting.MyPoint;
 
@@ -23,17 +25,30 @@ import main.fr.ut2j.m1ice.ootesting.MyPoint;
  * @author Mathilde LANNES
  * @author Emmanuel CHEBBI
  */
+
+ @RunWith(Parameterized.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MyPointTest {
+	@Parameters
+		public static List<MyPoint> points() {
+			return Arrays.asList(new MyPoint(0d, 0d), new MyPoint(5.873, -3.8764));
+			// return Arrays.asList(new Object[][] {
+			// {0d, 0d}, {1d, 1d}, {2.4353, 1.2435}, {-3.654, Double.NaN}, null, {6d, 8d}});
+	}
+	
+	MyPoint ORIGIN;
 	MyPoint point;
-	MyPoint point2;
+	
+	public MyPointTest(MyPoint newPoint) {
+		this.point = newPoint;
+	}
+	
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@Before
 	public void setUp() throws Exception {
-		point = new MyPoint();
-		point2 = new MyPoint(3, 4);
+		ORIGIN = new MyPoint();
 	}
 
 	/**
@@ -55,6 +70,7 @@ public class MyPointTest {
 
 	/**
 	 * Test method for {@link main.fr.ut2j.m1ice.ootesting.MyPoint#MyPoint(double, double)}.
+	 * TODO for with random numbers
 	 */
 	@Test
 	public void testMyPointDoubleDouble() {
@@ -73,7 +89,6 @@ public class MyPointTest {
 	@Test
 	public void testMyPointMyPoint() {
 		assertEquals(point, new MyPoint(point));
-		assertEquals(point2, new MyPoint(point2));
 	}
 	
 	/**
@@ -81,7 +96,7 @@ public class MyPointTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void testMyPointMyPointWithNull() {
-		assertEquals(point, new MyPoint(null));
+		new MyPoint(null);
 	}
 
 	/**
@@ -131,11 +146,11 @@ public class MyPointTest {
 	 */
 	@Test
 	public void scale_does_not_alter_point() {
-		MyPoint previous = new MyPoint(point2);
+		MyPoint previous = new MyPoint(point);
 		
 		for( double i = -10 ; i < 10 ; ++i ) {
-			point2.scale(i);
-			assertThat(previous, is(point2));
+			point.scale(i);
+			assertThat(previous, is(point));
 		}
 	}
 
@@ -145,19 +160,48 @@ public class MyPointTest {
 	@Test
 	public void scale_returns_a_scaled_point() {
 		for( double i = -10 ; i < 10 ; ++i ) {
-			MyPoint scaled = point2.scale(i);
-			MyPoint expected = new MyPoint(point2.getX() * i, point2.getY() * i);
+			MyPoint scaled = point.scale(i);
+			MyPoint expected = new MyPoint(point.getX() * i, point.getY() * i);
 					
 			assertThat(scaled, is(expected));
 		}
 	}
-
+	
+	
+	/**
+	 * Test method for {@link main.fr.ut2j.m1ice.ootesting.MyPoint#horizontalSymmetry(main.fr.ut2j.m1ice.ootesting.MyPoint)}.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testHorizontalSymmetryThrowsException() {
+		point.horizontalSymmetry(null);
+	}
+	
+	
 	/**
 	 * Test method for {@link main.fr.ut2j.m1ice.ootesting.MyPoint#horizontalSymmetry(main.fr.ut2j.m1ice.ootesting.MyPoint)}.
 	 */
 	@Test
 	public void testHorizontalSymmetry() {
-		fail("Not yet implemented");
+		MyPoint origin = new MyPoint(2d, 5d);
+		assertEquals(new MyPoint(-2d, 5d), origin.horizontalSymmetry(ORIGIN));
+		
+		for( double i = -10 ; i < 10 ; ++i ) {
+			MyPoint symmetry = point.horizontalSymmetry(new MyPoint(i, 5.356));
+			MyPoint expected = new MyPoint(2d * i - point.getX(), point.getY());
+					
+			assertThat(symmetry, is(expected));
+		}
+	}
+	
+	/**
+	 * Test method for {@link main.fr.ut2j.m1ice.ootesting.MyPoint#horizontalSymmetry(main.fr.ut2j.m1ice.ootesting.MyPoint)}.
+	 */
+	@Test
+	public void testHorizontalSymmetryIsntVerticalAsWell() {
+		for( double i = -10 ; i < 10 ; ++i ) {
+			MyPoint symmetry = point.horizontalSymmetry(new MyPoint(i, 5.356));
+			assertEquals(symmetry.getY(), point.getY(), 0.0001);
+		}
 	}
 
 	/**
