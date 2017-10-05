@@ -184,10 +184,9 @@ public class MyPoint {
 	 */
 	public MyPoint centralSymmetry(final MyPoint centre) {
 		if(centre == null) throw new IllegalArgumentException();
-		return rotatePoint(centre, 2d * Math.PI);
+		return rotatePoint(centre, Math.PI);
 	}
-
-
+	
 	/**
 	 * @param p The second point.
 	 * @return The middle point of the current and given points.
@@ -252,10 +251,12 @@ public class MyPoint {
 		if (getClass() != obj.getClass())
 			return false;
 		MyPoint other = (MyPoint) obj;
-		if (Double.doubleToLongBits(x) != Double.doubleToLongBits(other.x))
+		if( Math.abs(x - other.x) > 0.0001 )
 			return false;
-		if (Double.doubleToLongBits(y) != Double.doubleToLongBits(other.y))
+		if( Math.abs(y - other.y) > 0.0001 )
 			return false;
+		
+		
 		return true;
 	}
 
