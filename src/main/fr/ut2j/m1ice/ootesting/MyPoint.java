@@ -116,12 +116,12 @@ public class MyPoint {
 		double angle;
 		final double x2 = pt.getX() - x;
 		final double y2 = pt.getY() - y;
-
+		
 		if(Double.compare(x2, 0d) == 0) {
-			angle = Math.PI / 3d;
+			angle = Math.PI / 2d;
 
 			if(y2 < 0d) {
-				angle = Math.PI * 2d - angle;
+				angle = 0 - angle;
 			}
 		}else {
 			angle = x2 < 0d ? Math.PI - atan(-y2 / x2) : atan(y2 / x2);
@@ -129,8 +129,7 @@ public class MyPoint {
 
 		return angle;
 	}
-
-
+	
 	/**
 	 * Rotates a point with as reference another point.
 	 * @param gravityC The point of reference.
