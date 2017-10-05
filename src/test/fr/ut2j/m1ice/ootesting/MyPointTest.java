@@ -4,12 +4,15 @@
 package test.fr.ut2j.m1ice.ootesting;
 
 import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.*;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
+import org.junit.runners.Parameterized;
 
 import main.fr.ut2j.m1ice.ootesting.MyPoint;
 
@@ -65,32 +68,42 @@ public class MyPointTest {
 	 * Test method for {@link main.fr.ut2j.m1ice.ootesting.MyPoint#setX(double)}.
 	 */
 	@Test
-	public void testSetX() {
-		fail("Not yet implemented");
+	public void point_x_can_be_set_and_get() {
+		for( int x = -50 ; x < 50 ; ++x ) {
+			point.setX(x);
+			assertThat(point.getX(), is(x));
+		}
 	}
 
 	/**
 	 * Test method for {@link main.fr.ut2j.m1ice.ootesting.MyPoint#setY(double)}.
 	 */
 	@Test
-	public void testSetY() {
-		fail("Not yet implemented");
+	public void point_y_can_be_set_and_get() {
+		for( int x = - 50 ; x < 50 ; ++x ) {
+			point.setX(x);
+			assertThat(point.getX(), is(x));
+		}
 	}
 
 	/**
 	 * Test method for {@link main.fr.ut2j.m1ice.ootesting.MyPoint#getX()}.
 	 */
 	@Test
-	public void testGetX() {
-		fail("Not yet implemented");
+	public void point_x_cannot_be_NaN() {
+		double previous = point.getX();
+		point.setX(Double.NaN);
+		assertEquals(previous, point.getX(), 0.0001);
 	}
 
 	/**
 	 * Test method for {@link main.fr.ut2j.m1ice.ootesting.MyPoint#getY()}.
 	 */
 	@Test
-	public void testGetY() {
-		fail("Not yet implemented");
+	public void point_y_cannot_be_NaN() {
+		double previous = point.getY();
+		point.setY(Double.NaN);
+		assertEquals(previous, point.getY(), 0.0001);
 	}
 
 	/**
