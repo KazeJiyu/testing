@@ -91,7 +91,7 @@ public class MyPointTest {
 	public void point_x_can_be_set_and_get() {
 		for( int x = -50 ; x < 50 ; ++x ) {
 			point.setX(x);
-			assertThat(point.getX(), is(x));
+			assertEquals(x, point.getX(), 0.0001);
 		}
 	}
 
@@ -100,9 +100,9 @@ public class MyPointTest {
 	 */
 	@Test
 	public void point_y_can_be_set_and_get() {
-		for( int x = - 50 ; x < 50 ; ++x ) {
-			point.setX(x);
-			assertThat(point.getX(), is(x));
+		for( int y = - 50 ; y < 50 ; ++y ) {
+			point.setY(y);
+			assertEquals(y, point.getY(), 0.0001);
 		}
 	}
 
