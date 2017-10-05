@@ -69,7 +69,16 @@ public class MyPointTest {
 	 */
 	@Test
 	public void testMyPointMyPoint() {
-		fail("Not yet implemented");
+		assertEquals(point, new MyPoint(point));
+		assertEquals(point2, new MyPoint(point2));
+	}
+	
+	/**
+	 * Test method for {@link main.fr.ut2j.m1ice.ootesting.MyPoint#MyPoint(main.fr.ut2j.m1ice.ootesting.MyPoint)}.
+	 */
+	@Test(expected = NullPointerException.class)
+	public void testMyPointMyPointWithNull() {
+		assertEquals(point, new MyPoint(null));
 	}
 
 	/**
