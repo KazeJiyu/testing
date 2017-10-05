@@ -110,6 +110,9 @@ public class MyPoint {
 	 * @return The angle or NaN if the given point null.
 	 */
 	public double computeAngle(final MyPoint pt) {
+		if( pt == null )
+			return Double.NaN;
+		
 		double angle;
 		final double x2 = pt.getX() - x;
 		final double y2 = pt.getY() - y;
