@@ -34,11 +34,11 @@ Les getters sont nécessaires pour vérifier l'état interne des objets ; de ce 
 
 > Q.2a Utilisez l’outil de couverture de code fourni dans Eclipse (ou autre IDE) pour identifier les chemins dans le code non couvert par vos tests. Rajoutez quelques tests si besoins (n’y passez pas trop de temps).
 
-Nous avons utilisé l'outil Eclemma ; 57.7% du code était couvert. Ce chiffre est monté à 93% après la finalisation des tests. Nous n'atteignons pas les 100% car nous n'avons pas testé les methods toString, equals et hashCode.
+Nous avons utilisé l'outil Eclemma ; 57.7% du code était couvert. Ce chiffre est monté à 93% après la finalisation des tests. Nous n'atteignons pas les 100% car nous n'avons pas testé les méthodes toString, equals et hashCode.
 
 > Q.2b Est-ce que votre code est sûr lorsque toutes les instructions sont couvertes par au moins un test ?
 
-Non : l'outil de couvertude de code indique seulement que les tests empruntent les différentes branches du code. Cependant, une erreur de logique dans le code ou une erreur dans la méthode de test peut conduire à des bugs.
+Non : l'outil de couverture de code indique seulement que les tests empruntent les différentes branches du code. Cependant, une erreur de logique dans le code ou une erreur dans la méthode de test peut conduire à des bugs.
 
 Par "erreur de logique", nous entendons en réalité tous les bugs liés à des erreurs dans la sémantique du programme. Par exemple, un programme qui renverra x / 2 à la place de x * 2, ou encore qui appelera une méthode à la place d'une autre.
 
