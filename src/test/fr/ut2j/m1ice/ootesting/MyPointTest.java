@@ -8,6 +8,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
 
 import java.util.Arrays;
 import java.util.List;
@@ -226,7 +228,7 @@ public class MyPointTest {
 	 * Test method for {@link main.fr.ut2j.m1ice.ootesting.MyPoint#computeAngle(main.fr.ut2j.m1ice.ootesting.MyPoint)}.
 	 */
 	@Test
-	public void compute_angle_does_not_alter_point() {
+	public void computeAngle_does_not_alter_point() {
 		MyPoint previous = point;
 		point.computeAngle(new MyPoint(4,5));
 		assertThat(previous, is(point));
@@ -236,16 +238,84 @@ public class MyPointTest {
 	 * Test method for {@link main.fr.ut2j.m1ice.ootesting.MyPoint#computeAngle(main.fr.ut2j.m1ice.ootesting.MyPoint)}.
 	 */
 	@Test
-	public void compute_angle_returns_NaN_on_null() {
+	public void computeAngle_returns_NaN_on_null() {
 		assertThat(point.computeAngle(null), is(Double.NaN));
+	}
+
+	/**
+	 * Test method for {@link main.fr.ut2j.m1ice.ootesting.MyPoint#computeAngle(main.fr.ut2j.m1ice.ootesting.MyPoint)}.
+	 */
+	@Test
+	public void computeAngle() {
+		MyPoint onTop = new MyPoint(point.getX(), point.getY() + 50);
+		MyPoint onRight = new MyPoint(point.getX() + 12, point.getY());
+		MyPoint onBottom = new MyPoint(point.getX(), point.getY() - 12);
+		MyPoint onLeft = new MyPoint(point.getX() - 50, point.getY());
+
+		assertEquals(Math.PI / 2, point.computeAngle(onTop), 0.0001);
+		assertEquals(0, point.computeAngle(onRight), 0.0001);
+		assertEquals(Math.PI / -2, point.computeAngle(onBottom), 0.0001);
+		assertEquals(Math.PI, point.computeAngle(onLeft), 0.0001);
 	}
 
 	/**
 	 * Test method for {@link main.fr.ut2j.m1ice.ootesting.MyPoint#rotatePoint(main.fr.ut2j.m1ice.ootesting.MyPoint, double)}.
 	 */
 	@Test
-	public void testRotatePointOnNull() {
+	public void rotatePoint_returns_null_on_null() {
 		assertEquals(point.rotatePoint(null, 0d), null);
+	}
+
+	/**
+	 * Test method for {@link main.fr.ut2j.m1ice.ootesting.MyPoint#rotatePoint(main.fr.ut2j.m1ice.ootesting.MyPoint, double)}.
+	 */
+	@Test
+	public void rotatePoint_by_0_returns_points() {
+		assertEquals(point, point.rotatePoint(ORIGIN, 0d));
+	}
+
+	/**
+	 * Test method for {@link main.fr.ut2j.m1ice.ootesting.MyPoint#rotatePoint(main.fr.ut2j.m1ice.ootesting.MyPoint, double)}.
+	 */
+	@Test
+	public void rotatePoint_by_PI() {
+		assertEquals(new MyPoint(-point.getX(), -point.getY()), point.rotatePoint(ORIGIN, Math.PI));
+	}
+
+	/**
+	 * Test method for {@link main.fr.ut2j.m1ice.ootesting.MyPoint#rotatePoint(main.fr.ut2j.m1ice.ootesting.MyPoint, double)}.
+	 */
+	@Test
+	public void rotatePoint_by_neg_PI() {
+		assertEquals(new MyPoint(-point.getX(), -point.getY()), point.rotatePoint(ORIGIN, -Math.PI));
+	}
+
+	/**
+	 * Test method for {@link main.fr.ut2j.m1ice.ootesting.MyPoint#rotatePoint(main.fr.ut2j.m1ice.ootesting.MyPoint, double)}.
+	 */
+	@Test
+	public void rotatePoint_by_PI_on_2() {
+		assertEquals(new MyPoint(-point.getX(), point.getY()), point.rotatePoint(ORIGIN, Math.PI/2));
+	}
+
+	/**
+	 * Test method for {@link main.fr.ut2j.m1ice.ootesting.MyPoint#rotatePoint(main.fr.ut2j.m1ice.ootesting.MyPoint, double)}.
+	 */
+	@Test
+	public void rotatePoint_by_3PI_on_2() {
+		assertEquals(new MyPoint(point.getX(), -point.getY()), point.rotatePoint(ORIGIN, (3 * Math.PI)/2));
+	}
+
+	/**
+	 * Test method for {@link main.fr.ut2j.m1ice.ootesting.MyPoint#rotatePoint(main.fr.ut2j.m1ice.ootesting.MyPoint, double)}.
+	 */
+	@Test
+	public void rotatePoint_by_random_angle() {
+		final double angle = 1.72;
+		MyPoint expected = new MyPoint(
+			point.getX() * cos(angle) - point.getY() * sin(angle),
+			point.getX() * sin(angle) + point.getY() * cos(angle));
+		assertEquals(expected, point.rotatePoint(ORIGIN, angle));
 	}
 
 	/**
@@ -260,15 +330,7 @@ public class MyPointTest {
 	 * Test method for {@link main.fr.ut2j.m1ice.ootesting.MyPoint#centralSymmetry(main.fr.ut2j.m1ice.ootesting.MyPoint)}.
 	 */
 	@Test(expected = IllegalArgumentException.class)
-	public void testCentralSymmetryThrowsOnNull() {
-		point.centralSymmetry(null);
-	}
-
-	/**
-	 * Test method for {@link main.fr.ut2j.m1ice.ootesting.MyPoint#centralSymmetry(main.fr.ut2j.m1ice.ootesting.MyPoint)}.
-	 */
-	@Test(expected = IllegalArgumentException.class)
-	public void central_symmetry_throws_on_null() {
+	public void centralSymmetry_throws_on_null() {
 		point.centralSymmetry(null);
 	}
 
@@ -286,15 +348,22 @@ public class MyPointTest {
 	 * Test method for {@link main.fr.ut2j.m1ice.ootesting.MyPoint#translate(double, double)}.
 	 */
 	@Test
-	public void testTranslateDoubleDouble() {
-		fail("Not yet implemented");
+	public void translate_works_on_doubles() {
+		final double xTranslation = -5;
+		final double yTranslation = 53;
+		
+		MyPoint expected = new MyPoint(point.getX() + xTranslation, 
+									   point.getY() + yTranslation);
+		
+		point.translate(xTranslation, yTranslation);
+		assertEquals(expected, point);
 	}
 
 	/**
 	 * Test method for {@link main.fr.ut2j.m1ice.ootesting.MyPoint#setPoint(java.util.Random, java.util.Random)}.
 	 */
 	@Test
-	public void set_point_uses_random_values() {
+	public void setPoint_uses_random_values() {
 		MyPoint expected = new MyPoint(12,-5);
 		
 		when(rand1Mock.nextInt()).thenReturn((int) expected.getX());
@@ -308,7 +377,7 @@ public class MyPointTest {
 	 * Test method for {@link main.fr.ut2j.m1ice.ootesting.MyPoint#translate(main.fr.ut2j.m1ice.ootesting.ITranslation)}.
 	 */
 	@Test
-	public void testTranslateITranslation() {
+	public void translate_works_on_translations() {
 		when(translation.getTx()).thenReturn(5);
 		when(translation.getTy()).thenReturn(10);
 		
