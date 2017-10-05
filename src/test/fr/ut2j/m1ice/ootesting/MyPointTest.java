@@ -6,6 +6,9 @@ package test.fr.ut2j.m1ice.ootesting;
 import static org.junit.Assert.*;
 import static org.hamcrest.Matchers.*;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -45,7 +48,9 @@ public class MyPointTest {
 	 */
 	@Test
 	public void testMyPoint() {
-		fail("Not yet implemented");
+		MyPoint testPoint = new MyPoint();
+		assertEquals(0d, testPoint.getX(), 0.0001);
+		assertEquals(0d, testPoint.getY(), 0.0001);
 	}
 
 	/**
@@ -53,7 +58,13 @@ public class MyPointTest {
 	 */
 	@Test
 	public void testMyPointDoubleDouble() {
-		fail("Not yet implemented");
+		MyPoint testPointDouble = new MyPoint(2d, 5.8754);
+		assertEquals(2d, testPointDouble.getX(), 0.0001);
+		assertEquals(5.8754, testPointDouble.getY(), 0.0001);
+		
+		MyPoint testPointDouble2 = new MyPoint(-0.34567, Double.NaN);
+		assertEquals(-0.34567, testPointDouble2.getX(), 0.0001);
+		assertEquals(Double.NaN, testPointDouble2.getY(), 0.0001);
 	}
 
 	/**
@@ -61,7 +72,16 @@ public class MyPointTest {
 	 */
 	@Test
 	public void testMyPointMyPoint() {
-		fail("Not yet implemented");
+		assertEquals(point, new MyPoint(point));
+		assertEquals(point2, new MyPoint(point2));
+	}
+	
+	/**
+	 * Test method for {@link main.fr.ut2j.m1ice.ootesting.MyPoint#MyPoint(main.fr.ut2j.m1ice.ootesting.MyPoint)}.
+	 */
+	@Test(expected = NullPointerException.class)
+	public void testMyPointMyPointWithNull() {
+		assertEquals(point, new MyPoint(null));
 	}
 
 	/**
