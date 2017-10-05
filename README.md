@@ -88,3 +88,9 @@ On peut imaginer diverses façons d'améliorer le code.
 Tout d'abord, selon les cas d'utilisation de la classe MyPoint il pourrait être avisé de la rendre immutable en empêchant notamment la modification de ses attributs.
 
 Ensuite, la classe présente divers comportements "silencieux". Par exemple, lorsque les setters recoivent "NaN" en paramètre, ils se contentent de ne rien faire. Cela est heureusement en accord avec la documentation, mais il serait pertinent de prévenir l'utilisateur qu'une erreur a eu lieu via, par exemple, une exception.
+
+## Installation
+
+The pom.xml file includes the dependance to Moquito.
+
+The /lib/ folder includes the hamcrest jars, which cannot be included with Maven because that leads to bugs when using with JUnit.
