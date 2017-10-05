@@ -38,14 +38,17 @@ import main.fr.ut2j.m1ice.ootesting.MyPoint;
 public class MyPointTest {
 	
 	@Parameters
-		public static List<MyPoint> points() {
-			return Arrays.asList(new MyPoint(0d, 0d), new MyPoint(5.873, -3.8764));
-			// return Arrays.asList(new Object[][] {
-			// {0d, 0d}, {1d, 1d}, {2.4353, 1.2435}, {-3.654, Double.NaN}, null, {6d, 8d}});
+	public static List<Double[]> points() {
+		return Arrays.asList( new Double[][] {
+				{0d, 0d}, 
+				{-6.21, 4.12}, {5.873, -3.8764},
+				{12d,34.4d}, {-7d, -5.24}
+		});
 	}
 	
 	private MyPoint ORIGIN;
 	private MyPoint point;
+	private final Double[] coordinates;
 	
 	@Mock
 	private Random rand1Mock;
@@ -56,8 +59,8 @@ public class MyPointTest {
 	@Mock
 	private ITranslation translation;
 	
-	public MyPointTest(MyPoint newPoint) {
-		this.point = newPoint;
+	public MyPointTest(double x, double y) {
+		this.coordinates = new Double[] {x, y};
 	}
 	
 	/**
@@ -65,7 +68,8 @@ public class MyPointTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		ORIGIN = new MyPoint();
+		ORIGIN = new MyPoint(0,0);
+		point = new MyPoint(coordinates[0], coordinates[1]);
 		
 		// Init mocks
 		MockitoAnnotations.initMocks(this);
@@ -90,17 +94,19 @@ public class MyPointTest {
 
 	/**
 	 * Test method for {@link main.fr.ut2j.m1ice.ootesting.MyPoint#MyPoint(double, double)}.
-	 * TODO for with random numbers
 	 */
 	@Test
 	public void testMyPointDoubleDouble() {
-		MyPoint testPointDouble = new MyPoint(2d, 5.8754);
-		assertEquals(2d, testPointDouble.getX(), 0.0001);
-		assertEquals(5.8754, testPointDouble.getY(), 0.0001);
+		Random r = new Random();
 		
-		MyPoint testPointDouble2 = new MyPoint(-0.34567, Double.NaN);
-		assertEquals(-0.34567, testPointDouble2.getX(), 0.0001);
-		assertEquals(Double.NaN, testPointDouble2.getY(), 0.0001);
+		for( int i = 0 ; i < 50 ; ++i ) {
+			double x = r.nextDouble() * (r.nextBoolean() ? 1 : -1);
+			double y = r.nextDouble() * (r.nextBoolean() ? 1 : -1);
+			
+			MyPoint point = new MyPoint(x,y);
+			assertEquals(x, point.getX(), 0.0001);
+			assertEquals(y, point.getY(), 0.0001);
+		}
 	}
 
 	/**
@@ -192,7 +198,7 @@ public class MyPointTest {
 	 * Test method for {@link main.fr.ut2j.m1ice.ootesting.MyPoint#horizontalSymmetry(main.fr.ut2j.m1ice.ootesting.MyPoint)}.
 	 */
 	@Test(expected = IllegalArgumentException.class)
-	public void testHorizontalSymmetryThrowsException() {
+	public void horizontalSymmetry_throws_exception_on_null() {
 		point.horizontalSymmetry(null);
 	}
 	
@@ -201,7 +207,7 @@ public class MyPointTest {
 	 * Test method for {@link main.fr.ut2j.m1ice.ootesting.MyPoint#horizontalSymmetry(main.fr.ut2j.m1ice.ootesting.MyPoint)}.
 	 */
 	@Test
-	public void testHorizontalSymmetry() {
+	public void horizontalSymmetry() {
 		MyPoint origin = new MyPoint(2d, 5d);
 		assertEquals(new MyPoint(-2d, 5d), origin.horizontalSymmetry(ORIGIN));
 		
@@ -213,17 +219,6 @@ public class MyPointTest {
 		}
 	}
 	
-	/**
-	 * Test method for {@link main.fr.ut2j.m1ice.ootesting.MyPoint#horizontalSymmetry(main.fr.ut2j.m1ice.ootesting.MyPoint)}.
-	 */
-	@Test
-	public void testHorizontalSymmetryIsntVerticalAsWell() {
-		for( double i = -10 ; i < 10 ; ++i ) {
-			MyPoint symmetry = point.horizontalSymmetry(new MyPoint(i, 5.356));
-			assertEquals(symmetry.getY(), point.getY(), 0.0001);
-		}
-	}
-
 	/**
 	 * Test method for {@link main.fr.ut2j.m1ice.ootesting.MyPoint#computeAngle(main.fr.ut2j.m1ice.ootesting.MyPoint)}.
 	 */
@@ -295,7 +290,7 @@ public class MyPointTest {
 	 */
 	@Test
 	public void rotatePoint_by_PI_on_2() {
-		assertEquals(new MyPoint(-point.getX(), point.getY()), point.rotatePoint(ORIGIN, Math.PI/2));
+		assertEquals(new MyPoint(-point.getY(), point.getX()), point.rotatePoint(ORIGIN, Math.PI/2));
 	}
 
 	/**
@@ -303,11 +298,13 @@ public class MyPointTest {
 	 */
 	@Test
 	public void rotatePoint_by_3PI_on_2() {
-		assertEquals(new MyPoint(point.getX(), -point.getY()), point.rotatePoint(ORIGIN, (3 * Math.PI)/2));
+		assertEquals(new MyPoint(point.getY(), -point.getX()), point.rotatePoint(ORIGIN, (3 * Math.PI)/2));
 	}
 
 	/**
 	 * Test method for {@link main.fr.ut2j.m1ice.ootesting.MyPoint#rotatePoint(main.fr.ut2j.m1ice.ootesting.MyPoint, double)}.
+	 *
+	 * TODO Formula taken from Wikipedia. Test various values should be better, but ....
 	 */
 	@Test
 	public void rotatePoint_by_random_angle() {
@@ -320,10 +317,13 @@ public class MyPointTest {
 
 	/**
 	 * Test method for {@link main.fr.ut2j.m1ice.ootesting.MyPoint#centralSymmetry(main.fr.ut2j.m1ice.ootesting.MyPoint)}.
+	 *
+	 * TODO Tests should be performed with different origins...
 	 */
 	@Test
-	public void testCentralSymmetry() {
-		fail("Not yet implemented");
+	public void centralSymmetry_against_origin_returns_opposite_point() {
+		MyPoint expected = point.rotatePoint(ORIGIN, Math.PI);
+		assertEquals(expected, point.centralSymmetry(ORIGIN));
 	}
 	
 	/**
@@ -338,7 +338,7 @@ public class MyPointTest {
 	 * Test method for {@link main.fr.ut2j.m1ice.ootesting.MyPoint#getMiddlePoint(main.fr.ut2j.m1ice.ootesting.MyPoint)}.
 	 */
 	@Test
-	public void testGetMiddlePoint() {
+	public void middlePoint() {
 		MyPoint otherPoint = new MyPoint(6d, 8.45646);
 		MyPoint expected = new MyPoint((point.getX() + otherPoint.getX()) / 2d, (point.getY() + otherPoint.getY()) / 2d);
 		assertEquals(expected, point.getMiddlePoint(otherPoint));
@@ -363,7 +363,7 @@ public class MyPointTest {
 	 * Test method for {@link main.fr.ut2j.m1ice.ootesting.MyPoint#setPoint(java.util.Random, java.util.Random)}.
 	 */
 	@Test
-	public void setPoint_uses_random_values() {
+	public void setPoint_uses_given_objects() {
 		MyPoint expected = new MyPoint(12,-5);
 		
 		when(rand1Mock.nextInt()).thenReturn((int) expected.getX());
