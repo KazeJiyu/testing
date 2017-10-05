@@ -9,17 +9,22 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import main.fr.ut2j.m1ice.ootesting.MyPoint;
+
 /**
  * @author Kaze
  *
  */
 public class MyPointTest {
-
+	MyPoint point;
+	MyPoint point2;
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@Before
 	public void setUp() throws Exception {
+		point = new MyPoint();
+		point2 = new MyPoint(3, 4);
 	}
 
 	/**
