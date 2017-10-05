@@ -72,3 +72,4 @@ Avec Easymock : voir la refcard et les slides du cours.
 * Ajout de la méthode toString()
 * Ajout de la méthode hashCode()
 * Ajout de la méthode equals()
+* Corrections de bugs, mise en place de programmation défensive pour être en accord avec la documentation
