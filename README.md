@@ -1,3 +1,8 @@
+## Projet réalisé par :
+
+* CHEBBI Emmanuel
+* LANNES Mathilde
+
 # Object-Oriented Software Testing
 
 Master 1 ICE, GLa - V&V - Labs ([course materials](https://combemale.github.io/teaching/m1ice/))
