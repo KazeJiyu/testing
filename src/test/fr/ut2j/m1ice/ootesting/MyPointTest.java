@@ -7,7 +7,9 @@ import static org.junit.Assert.*;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import main.fr.ut2j.m1ice.ootesting.MyPoint;
 
@@ -15,6 +17,7 @@ import main.fr.ut2j.m1ice.ootesting.MyPoint;
  * @author Kaze
  *
  */
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MyPointTest {
 	MyPoint point;
 	MyPoint point2;
