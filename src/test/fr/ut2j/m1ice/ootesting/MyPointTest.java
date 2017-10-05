@@ -224,8 +224,8 @@ public class MyPointTest {
 	 * Test method for {@link main.fr.ut2j.m1ice.ootesting.MyPoint#rotatePoint(main.fr.ut2j.m1ice.ootesting.MyPoint, double)}.
 	 */
 	@Test
-	public void testRotatePoint() {
-		fail("Not yet implemented");
+	public void testRotatePointOnNull() {
+		assertEquals(point.rotatePoint(null, 0d), null);
 	}
 
 	/**
@@ -234,6 +234,14 @@ public class MyPointTest {
 	@Test
 	public void testCentralSymmetry() {
 		fail("Not yet implemented");
+	}
+	
+	/**
+	 * Test method for {@link main.fr.ut2j.m1ice.ootesting.MyPoint#centralSymmetry(main.fr.ut2j.m1ice.ootesting.MyPoint)}.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testCentralSymmetryThrowsException() {
+		point.centralSymmetry(null);
 	}
 
 	/**
@@ -249,7 +257,9 @@ public class MyPointTest {
 	 */
 	@Test
 	public void testGetMiddlePoint() {
-		fail("Not yet implemented");
+		MyPoint otherPoint = new MyPoint(6d, 8.45646);
+		MyPoint expected = new MyPoint((point.getX() + otherPoint.getX()) / 2d, (point.getY() + otherPoint.getY()) / 2d);
+		assertEquals(expected, point.getMiddlePoint(otherPoint));
 	}
 
 	/**
