@@ -110,8 +110,26 @@ public class MyPointTest {
 	 * Test method for {@link main.fr.ut2j.m1ice.ootesting.MyPoint#scale(double)}.
 	 */
 	@Test
-	public void testScale() {
-		fail("Not yet implemented");
+	public void scale_does_not_alter_point() {
+		MyPoint previous = new MyPoint(point2);
+		
+		for( double i = -10 ; i < 10 ; ++i ) {
+			point2.scale(i);
+			assertThat(previous, is(point2));
+		}
+	}
+
+	/**
+	 * Test method for {@link main.fr.ut2j.m1ice.ootesting.MyPoint#scale(double)}.
+	 */
+	@Test
+	public void scale_returns_a_scaled_point() {
+		for( double i = -10 ; i < 10 ; ++i ) {
+			MyPoint scaled = point2.scale(i);
+			MyPoint expected = new MyPoint(point2.getX() * i, point2.getY() * i);
+					
+			assertThat(scaled, is(expected));
+		}
 	}
 
 	/**
