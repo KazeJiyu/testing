@@ -24,6 +24,7 @@ import org.junit.runners.Parameterized.Parameters;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import main.fr.ut2j.m1ice.ootesting.ITranslation;
 import main.fr.ut2j.m1ice.ootesting.MyPoint;
 
 /**
@@ -49,6 +50,9 @@ public class MyPointTest {
 	
 	@Mock
 	private Random rand2Mock;
+	
+	@Mock
+	private ITranslation translation;
 	
 	public MyPointTest(MyPoint newPoint) {
 		this.point = newPoint;
@@ -305,7 +309,12 @@ public class MyPointTest {
 	 */
 	@Test
 	public void testTranslateITranslation() {
-		fail("Not yet implemented");
+		when(translation.getTx()).thenReturn(5);
+		when(translation.getTy()).thenReturn(10);
+		
+		MyPoint expected = new MyPoint(point.getX() + 5, point.getY() + 10);
+		point.translate(translation);
+		assertEquals(expected, point);
 	}
 
 }
